@@ -353,7 +353,7 @@
 
         //get User Details
         const getLoggedInUser = () => {
-            return JSON.parse(localStorage.getItem('userDetail'));
+            return JSON.parse(localStorage.getItem('userDetail')) || [];
         }
         const loggedInUser = getLoggedInUser();
 
@@ -443,10 +443,10 @@
 
         //display transaction table
 
-        const transactionData = JSON.parse(localStorage.getItem('userTransaction'));
+        const transactionData = JSON.parse(localStorage.getItem('userTransaction')) || [];
 
         const overViewCardUI = () => {
-            const transactionData1 = JSON.parse(localStorage.getItem('userTransaction'));
+            const transactionData1 = JSON.parse(localStorage.getItem('userTransaction')) || [];
             const totalIncome = transactionData1.reduce((acc, currentValue) => {
                 if (currentValue.Transaction_Type === 'Income') {
                     return Number(currentValue.Amount) + acc;
@@ -629,7 +629,7 @@
 
                 closeModal();
                 overViewCardUI();
-                const getDataTable = JSON.parse(localStorage.getItem('userTransaction'));
+                const getDataTable = JSON.parse(localStorage.getItem('userTransaction')) || [];
 
                 tableUI(getDataTable);
 
