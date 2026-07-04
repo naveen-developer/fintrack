@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <title>Financial Overview</title>
+</head>
+
+<body>
+
+    <main>
+        <header>
+            <p class="username">Username</p>
+            <button type="button" class="logout_btn">
+                <span><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
+                <span>Logout</span>
+            </button>
+            <button class="mobile_menu"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+        </header>
+        <section class="dashboard_view">
+            <div class="hero_section">
+                <h1>Financial Overview</h1>
+                <p class="hero_text">Real-time tracking application</p>
+            </div>
+            <div class="overview_cards">
+                <div class="card">
+                    <div class="card_icon bg-blue"><i class="fa-solid fa-building-columns"></i></div>
+                    <p>Current Balance</p>
+                    <p class="currency current_bal">₹0.00</p>
+                </div>
+                <div class="card income">
+                    <div class="card_icon bg-green"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                    <p>Total Income</p>
+                    <p class="currency total_income">₹0.00</p>
+                </div>
+                <div class="card expense">
+                    <div class="card_icon bg-red"><i class="fa-solid fa-arrow-trend-down"></i></div>
+                    <p>Total Expense</p>
+                    <p class="currency total_expense">₹0.00</p>
+                </div>
+                <div class="card">
+                    <div class="card_icon bg-blue"><i class="fa-solid fa-piggy-bank"></i></div>
+                    <p>Total Transactions</p>
+                    <p class="currency total_trans">0</p>
+                </div>
+            </div>
+            <div class="dashboard-grid">
+                <div class="dashboard-main">
+                    <h2>Cash Flow Analysis</h2>
+                    <div>
+                        <canvas id="myChart"></canvas>
+                    </div>
+                </div>
+                <div class="dashboard-sidebar">
+                    <h2>Preferences</h2>
+                    <div class="darkmode_toggle">
+                        <p class="title">Dark mode</p>
+                        <div class="toggle">
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider round"></span>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <button type="button" class="resetBtn bg-red">
+                        <span><i class="fa-regular fa-trash-can" aria-hidden="true"></i></span>
+                        <span>Reset All Data</span>
+                    </button>
+                </div>
+            </div>
+            <div class="all-transactions">
+                <h2>All Transactions</h2>
+
+                <div class="transaction-filters">
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+
+                        <label for="search-transaction" class="visual-hidden">
+                            Search Transaction
+                        </label>
+
+                        <input type="text" id="search-transaction" placeholder="Search transactions...">
+                    </div>
+
+                    <div class="filter-type">
+                        <label for="type" class="visual-hidden">
+                            Select transaction type
+                        </label>
+
+                        <select id="transaction_type">
+                            <option value="all">All Types</option>
+                            <option value="income">Income Only</option>
+                            <option value="expense">Expense Only</option>
+                        </select>
+                    </div>
+                </div>
+
+                <table class="transaction-table">
+                    <caption class="visual-hidden">Transaction Table</caption>
+                    <thead>
+                        <tr>
+                            <th>DATE</th>
+                            <th>DESCRIPTION</th>
+                            <th>CATEGORY</th>
+                            <th>AMOUNT</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                        <tr>
+                            <td>29/04/2026 </td>
+                            <td class="desc">Mobile Purchase</td>
+                            <td>Expense</td>
+                            <td class="amount">-₹50000</td>
+                            <td>
+                                <span class="edit_icon bg-blue"><i class="fa-solid fa-pen-nib"
+                                        aria-hidden="true"></i></span>
+
+                                <span class="delete_icon bg-red"><i class="fa-solid fa-trash-can"
+                                        aria-hidden="true"></i></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section class="settings-view" style="display: none;">
+            <div class="hero_section">
+                <h1>Settings</h1>
+                <p class="hero_text">Manage your account profile and app formatting.</p>
+            </div>
+
+            <div class="profile-view">
+                <h2>Profile Details</h2>
+
+                <div class="profile-fields">
+                    <div class="profile-name">
+                        <label for="full_name">Full name</label>
+                        <input type="text" value="username" id="full_name">
+                    </div>
+
+                    <div class="currency-field">
+                        <label for="currency">Primary Currency</label>
+                        <select id="currency">
+                            <option value="$">USD ($)</option>
+                            <option value="€">EUR (€)</option>
+                            <option value="£">GBP (£)</option>
+                            <option value="₹">INR (₹)</option>
+                            <option value="¥">JPY (¥)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="button">Save Changes</button>
+            </div>
+        </section>
+
+        <div class="modal-overlay" hidden>
+            <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+                <button class="modal-close" type="button" aria-label="Close dialog">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+
+                <h2 id="modal-title">Add Transaction</h2>
+
+                <form class="transaction-form">
+                    <div class="transaction-fields">
+                        <div class="transaction-field">
+                            <label for="type-transaction">Type</label>
+                            <select id="type-transaction">
+                                <option value="" disabled="" selected="">
+                                    Select a Transaction Type
+                                </option>
+                                <option>Expense</option>
+                                <option>Income</option>
+                            </select>
+                        </div>
+                        <div class="transaction-field">
+                            <label for="description">Description</label>
+                            <input type="text" id="description" autocomplete="description"
+                                placeholder="e.g. Amazon, Salary, Coffee">
+                        </div>
+                        <div class="amount_date">
+                            <div class="transaction-field">
+                                <label for="amount">Amount</label>
+                                <input type="text" id="amount" autocomplete="amount" placeholder="1000/-">
+                            </div>
+                            <div class="transaction-field">
+                                <label for="date">Amount</label>
+                                <input type="date" id="date" autocomplete="date" placeholder="DD-MM-YYYY">
+                            </div>
+                        </div>
+
+                        <div class="transaction-field">
+                            <label for="txCategory">Category</label>
+                            <select id="txCategory" required>
+                                <option value="" disabled selected>
+                                    Select a category
+                                </option>
+                                <option value="Food & Dining">
+                                    Food &amp; Dining
+                                </option>
+                                <option value="Shopping">
+                                    Shopping
+                                </option>
+                                <option value="Recharge & Bills">
+                                    Recharge &amp; Bills
+                                </option>
+                                <option value="Petrol & Auto">
+                                    Petrol &amp; Auto
+                                </option>
+                                <option value="Utilities">
+                                    Utilities
+                                </option>
+                                <option value="Salary">
+                                    Salary
+                                </option>
+                                <option value="Entertainment">
+                                    Entertainment
+                                </option>
+                                <option value="Other">
+                                    Other
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="transaction-button">
+                        Save Transaction
+                    </button>
+                </form>
+
+                <div class="modal-actions">
+                    <button type="button" class="cancel-btn">
+                        Cancel
+                    </button>
+
+
+                </div>
+            </div>
+        </div>
+    </main>
+    <aside class="aside_nav active">
+        <div class="logo">
+            <div class="logo_icon"><i class="fa-brands fa-google-wallet"></i></div>
+            <div class="logo_text">
+                <h2>FinTrack Pro</h2>
+                <p>Enterprise Finance</p>
+            </div>
+        </div>
+        <nav class="nav-menu">
+            <ul>
+                <li class="active">
+                    <span><i class="fa-brands fa-dashcube" aria-hidden="true"></i></span>
+                    <span>Dashboard</span>
+                </li>
+                <li>
+                    <span><i class="fa-solid fa-gear" aria-hidden="true"></i></span>
+                    <span>Settings</span>
+                </li>
+            </ul>
+        </nav>
+        <button class="addTransactionBtn" type="button">
+            <span><i class="fa-solid fa-plus" aria-hidden="true"></i></span>
+            <span>Add Transaction</span>
+        </button>
+
+    </aside>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <script>
+        const ctx = document.getElementById('myChart');
+        //console.log(totalIncome)
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Income vs Expenses'],
+                datasets: [{
+                    label: 'Income',
+                    data: [0],
+                    borderWidth: 1,
+                    backgroundColor: '#166534'
+                },
+                {
+                    label: 'Expense',
+                    data: [0],
+                    borderWidth: 1,
+                    backgroundColor: '#991b1b'
+                }]
+            },
+
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+
+    <script>
+
+
+
+        let currentIndexTransaction = null;
+        let totalAmountIncome = 0;
+        let totalAmountExpense = 0;
+
+        //mobile menu button code start
+        const aside_nav = document.querySelector('.aside_nav');
+        const mobile_menu_btn = document.querySelector('.mobile_menu');
+        mobile_menu_btn.addEventListener('click', () => {
+            aside_nav.classList.toggle('active');
+        })
+        //mobile menu button code end
+
+
+
+
+
+        //toggle dark mode code start
+        const body = document.querySelector('body');
+        const toggleBtn = document.querySelector('.switch input');
+
+        toggleBtn.addEventListener('change', () => {
+            if (toggleBtn.checked) {
+                body.classList.add('dark');
+            } else {
+                body.classList.remove('dark');
+            }
+
+        })
+        //toggle dark mode code end
+
+
+
+
+        //get User Details
+        const getLoggedInUser = () => {
+            return JSON.parse(localStorage.getItem('userDetail'));
+        }
+        const loggedInUser = getLoggedInUser();
+
+        if (!loggedInUser) {
+            window.location.replace('login.html');
+        }
+
+        document.querySelector('.username').innerText = loggedInUser.username;
+
+
+        //loggoed out code
+        const logout_btn = document.querySelector('.logout_btn');
+        logout_btn.addEventListener('click', () => {
+            localStorage.removeItem('userDetail');
+            window.location.replace('login.html')
+        })
+
+
+        //settings Profile details
+        const profileSaveBtn = document.querySelector('.profile-view button');
+        const profileCurrency = document.querySelector('.profile-view #currency');
+        const profile_full_name = document.querySelector('.profile-view #full_name');
+        profile_full_name.value = loggedInUser.username;
+        profileCurrency.value = loggedInUser.currency;
+
+        profileSaveBtn.addEventListener('click', () => {
+            const currentUser = getLoggedInUser();
+            const initialUsername = currentUser.username;
+            const initialCurrency = currentUser.currency;
+
+
+
+            const name = profile_full_name.value.trim();
+            if (!name) {
+                alert('Username is required.');
+                return;
+            }
+
+            const currency = profileCurrency.value;
+
+            const isUsernameChanged = initialUsername !== name;
+            const isCurrencyChanged = initialCurrency !== currency;
+
+            if (!isCurrencyChanged && !isUsernameChanged) {
+                alert('no change found');
+                return;
+            }
+
+            const userDetail = {
+                ...loggedInUser,
+                username: name,
+                currency: currency
+            }
+
+            localStorage.setItem('userDetail', JSON.stringify(userDetail));
+            alert('Changes have been updated!');
+
+            document.querySelector('.username').textContent = userDetail.username;
+        })
+
+
+
+
+
+
+        /* Modal code*/
+        const modalOverlay = document.querySelector('.modal-overlay');
+        const addTransactionBtn = document.querySelector('.addTransactionBtn');
+        const modalClose = document.querySelector('.modal-close');
+        const cancelBtn = document.querySelector('.cancel-btn');
+
+        const openModal = () => {
+            modalOverlay.classList.add('active');
+            document.getElementById('modal-title').innerText = 'Add Transaction';
+
+        }
+
+        const closeModal = () => {
+            modalOverlay.classList.remove('active')
+        }
+
+        addTransactionBtn.addEventListener('click', openModal);
+        cancelBtn.addEventListener('click', closeModal);
+        modalClose.addEventListener('click', closeModal);
+
+
+
+        //display transaction table
+
+        const transactionData = JSON.parse(localStorage.getItem('userTransaction'));
+
+        const overViewCardUI = () => {
+            const transactionData1 = JSON.parse(localStorage.getItem('userTransaction'));
+            const totalIncome = transactionData1.reduce((acc, currentValue) => {
+                if (currentValue.Transaction_Type === 'Income') {
+                    return Number(currentValue.Amount) + acc;
+                }
+                return acc;
+            }, 0)
+
+            const totalExpense = transactionData1.reduce((acc, currentValue) => {
+                if (currentValue.Transaction_Type === 'Expense') {
+                    return Number(currentValue.Amount) + acc;
+                }
+                return acc;
+            }, 0)
+
+            totalAmountIncome = totalIncome;
+            totalAmountExpense = totalExpense;
+
+            document.querySelector('.current_bal').innerText = `${getLoggedInUser().currency}${totalIncome - totalExpense}`;
+            document.querySelector('.total_income').innerText = `${getLoggedInUser().currency}${totalIncome}`;
+            document.querySelector('.total_expense').innerText = `${getLoggedInUser().currency}${totalExpense}`;
+            document.querySelector('.total_trans').innerText = transactionData1.length;
+        }
+        overViewCardUI();
+
+        const tableUI = (data) => {
+
+
+
+
+            let tableBody = '';
+            const currentCurrency = getLoggedInUser().currency;
+            data.forEach((elem) => {
+
+                let isIncome = elem.Transaction_Type === 'Income';
+                let sign = isIncome ? '+' : '-';
+                let classtxt = isIncome ? 'txt-green' : 'txt-red';
+
+
+
+                tableBody += `
+        
+                        <tr>
+                            <td>${elem.Transaction_Date} </td>
+                            <td class="desc">${elem.Description}</td>
+                            <td>${elem.Transaction_Category}</td>
+                            <td class="amount ${classtxt}">${sign}${currentCurrency}${elem.Amount}</td>
+                            <td>
+                                <span class="edit_icon bg-blue" onclick="editTransaction(${elem.id})"><i class="fa-solid fa-pen-nib" aria-hidden="true"></i></span>
+
+                                <span class="delete_icon bg-red" onclick="deleteTransaction(${elem.id})"><i class="fa-solid fa-trash-can" aria-hidden="true"></i></span>
+                            </td>
+                        </tr>
+                    
+        `
+            })
+
+
+            document.getElementById('tbody').innerHTML = tableBody;
+        }
+
+        const transaction_type = document.getElementById('transaction_type');
+        transaction_type.addEventListener('change', (elem) => {
+            const ttype = elem.target.value;
+            if (ttype === 'income') {
+                const result = transactionData.filter((elem) => elem.Transaction_Type === 'Income');
+                tableUI(result);
+            } else if (ttype === 'expense') {
+                const result = transactionData.filter((elem) => elem.Transaction_Type === 'Expense');
+                tableUI(result);
+            } else {
+                const result = transactionData;
+                tableUI(result);
+            }
+        })
+
+        const searchTransaction = document.getElementById('search-transaction');
+        searchTransaction.addEventListener('input', (event) => {
+            const searchValue = event.target.value.toLowerCase();
+            const matchingData = transactionData.filter((elem) => {
+                return (
+                    elem.Description.toLowerCase().includes(searchValue) || elem.Transaction_Category.toLowerCase().includes(searchValue)
+                )
+            })
+            tableUI(matchingData);
+        })
+
+        tableUI(transactionData);
+
+        //edit Transaction
+        const editTransaction = (item) => {
+
+            const currentTransaction = transactionData.find((elem) => elem.id === item)
+            currentIndexTransaction = transactionData.findIndex((elem) => elem.id === item)
+
+
+            typeTransaction.value = currentTransaction.Transaction_Type;
+            description.value = currentTransaction.Description;
+            amount.value = currentTransaction.Amount;
+            date.value = currentTransaction.Transaction_Date;
+            txCategory.value = currentTransaction.Transaction_Category;
+
+
+            openModal();
+            document.getElementById('modal-title').innerText = 'Edit Transaction';
+            myChartUpdate()
+        }
+
+        //delete Transaction code
+        const deleteTransaction = (item) => {
+            const filteredTransactions = transactionData.filter((elem) => elem.id !== item);
+            localStorage.setItem('userTransaction', JSON.stringify(filteredTransactions));
+            alert('Transaction has been deleted');
+            tableUI(filteredTransactions);
+            overViewCardUI();
+            myChartUpdate()
+        }
+
+        //add Transaction code
+        const typeTransaction = document.querySelector('#type-transaction');
+        const description = document.querySelector('#description');
+        const amount = document.querySelector('#amount');
+        const date = document.querySelector('#date');
+        const txCategory = document.querySelector('#txCategory');
+
+        const transactionButton = document.querySelector('.transaction-button');
+
+        const resetTransactionForm = () => {
+            typeTransaction.value = "";
+            description.value = "";
+            amount.value = "";
+            date.value = "";
+            txCategory.value = "";
+        }
+
+        const transactionLogic = (event) => {
+
+            event.preventDefault();
+            const TT = typeTransaction.value;
+            const desc = description.value.trim();
+            const amt = amount.value.trim();
+            const Tdate = date.value;
+            const TC = txCategory.value;
+
+            let checkEmptyField = false;
+
+            const userTransaction = {
+                id: Date.now(),
+                Transaction_Type: TT,
+                Description: desc,
+                Amount: amt,
+                Transaction_Date: Tdate,
+                Transaction_Category: TC
+            }
+
+
+
+
+            Object.entries(userTransaction).forEach(([key, value]) => {
+                if (value === '') {
+                    checkEmptyField = true;
+                    alert(`${key} field is empty its required field`);
+                }
+            })
+
+            if (!checkEmptyField) {
+
+                let transaction = JSON.parse(localStorage.getItem('userTransaction')) || [];
+                if (currentIndexTransaction !== null) {
+                    transaction[currentIndexTransaction] = userTransaction;
+
+                    currentIndexTransaction = null;
+                    alert("Transaction has been edited sucessfully!");
+                } else {
+                    transaction.push(userTransaction)
+                    alert("Transaction has been added sucessfully!");
+                }
+
+
+                localStorage.setItem("userTransaction", JSON.stringify(transaction))
+
+                closeModal();
+                overViewCardUI();
+                const getDataTable = JSON.parse(localStorage.getItem('userTransaction'));
+
+                tableUI(getDataTable);
+
+                resetTransactionForm();
+
+                myChartUpdate();
+
+            }
+
+        }
+
+        transactionButton.addEventListener('click', transactionLogic)
+
+
+
+        const resetBtn = document.querySelector('.resetBtn');
+        resetBtn.addEventListener('click', () => {
+            localStorage.setItem('userTransaction', JSON.stringify([]));
+            alert("All Transaction Data has been deleted!")
+            tableUI(transactionData);
+            overViewCardUI();
+        })
+
+
+
+
+
+
+
+        //aside nav item active code start
+        const navItems = document.querySelectorAll('.nav-menu ul li');
+        const dashboardView = document.querySelector('.dashboard_view');
+        const settingsView = document.querySelector('.settings-view');
+
+        navItems.forEach((elem) => {
+            elem.addEventListener('click', () => {
+                navItems.forEach((elem) => elem.classList.remove('active'))
+                elem.classList.add('active');
+                const navItem = elem.lastElementChild.innerText;
+                if (navItem === "Dashboard") {
+                    dashboardView.style.display = 'block';
+                    settingsView.style.display = 'none';
+                    overViewCardUI();
+                    tableUI(transactionData);
+                } else {
+                    dashboardView.style.display = 'none';
+                    settingsView.style.display = 'block';
+                }
+            })
+        })
+        //aside nav item active code end
+
+
+        // console.log(totalAmountIncome)
+        // console.log(totalAmountExpense)
+
+        // myChart.data.datasets[0].data = [totalAmountIncome];
+        // myChart.data.datasets[1].data = [totalAmountExpense];
+        //myChart.update();
+
+
+        const myChartUpdate = () => {
+            const userTransactions = JSON.parse(localStorage.getItem('userTransaction')) || [];
+            const totalIncome = userTransactions.reduce((total, transaction) => {
+                if (transaction.Transaction_Type === 'Income') {
+                    return Number(transaction.Amount) + total;
+                }
+                return total;
+            }, 0)
+
+            const totalExpense = userTransactions.reduce((total, transaction) => {
+                if (transaction.Transaction_Type === 'Expense') {
+                    return Number(transaction.Amount) + total;
+                }
+                return total;
+            }, 0)
+
+
+            myChart.data.datasets[0].data = [totalIncome];
+            myChart.data.datasets[1].data = [totalExpense];
+            myChart.update();
+        }
+        myChartUpdate()
+
+    </script>
+
+
+
+
+</body>
+
+</html>
