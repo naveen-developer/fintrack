@@ -115,7 +115,9 @@ header {
 .logout_btn {
     padding: 0.5rem 1rem;
     border-radius: 5px;
-    background: #f4f4f4;
+    background: var(--normalblack);
+    color: var(--normalwhite);
+    border: none;
 }
 
 .username {
@@ -681,6 +683,11 @@ td.desc {
 
 .nav-menu li button.active {
     color: var(--primary-blue-text);
+}
+
+.currency.current_bal,
+.currency.total_trans {
+    color: var(--normalblack);
 }
 
 @media screen and (max-width:768px) {
