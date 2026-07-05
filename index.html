@@ -67,7 +67,7 @@
                         <p class="title">Dark mode</p>
                         <div class="toggle">
                             <label class="switch">
-                                <input type="checkbox">
+                                <input type="checkbox" role="switch" aria-label="Enable dark mode">
                                 <span class="slider round"></span>
                             </label>
 
@@ -99,7 +99,7 @@
                             Select transaction type
                         </label>
 
-                        <select id="transaction_type">
+                        <select id="transaction_type" aria-label="select transaction type">
                             <option value="all">All Types</option>
                             <option value="income">Income Only</option>
                             <option value="expense">Expense Only</option>
@@ -134,6 +134,85 @@
                         </tr>
                     </tbody>
                 </table>
+
+                <!-- mobile transation cards -->
+                <div class="transaction-list mobile_custom">
+
+                    <article class="transaction-card income">
+                        <div class="transaction-icon">
+                            <i class="fa-solid fa-arrow-up"></i>
+                        </div>
+
+                        <div class="transaction-content">
+                            <div class="transaction-header">
+                                <h3>Rental Income</h3>
+                                <div class="transaction-details">
+                                    <p>
+                                        <i class="fa-regular fa-calendar"></i>
+                                        2026-06-28
+                                    </p>
+
+                                    <p>
+                                        <i class="fa-solid fa-tag"></i>
+                                        Other
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="transaction-actions">
+                            <p class="amount txt-green">+€6000</p>
+                            <button class="edit_icon bg-blue">
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+
+                            <button class="delete_icon bg-red">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+
+                    </article>
+
+                    <article class="transaction-card expense">
+                        <div class="transaction-icon expense-icon">
+                            <i class="fa-solid fa-arrow-down"></i>
+                        </div>
+
+                        <div class="transaction-content">
+                            <div class="transaction-header">
+                                <h3>Rental Expense</h3>
+                                <div class="transaction-details">
+                                    <p>
+                                        <i class="fa-regular fa-calendar"></i>
+                                        2026-06-29
+                                    </p>
+
+                                    <p>
+                                        <i class="fa-solid fa-tag"></i>
+                                        Other
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="transaction-actions">
+                            <p class="amount txt-red">-€2000</p>
+                            <button class="edit_icon bg-blue">
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+
+                            <button class="delete_icon bg-red">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+
+                    </article>
+
+
+
+                </div>
             </div>
         </section>
         <section class="settings-view" style="display: none;">
@@ -252,7 +331,7 @@
             </div>
         </div>
     </main>
-    <aside class="aside_nav active">
+    <aside class="aside_nav">
         <div class="logo">
             <div class="logo_icon"><i class="fa-brands fa-google-wallet"></i></div>
             <div class="logo_text">
@@ -263,12 +342,16 @@
         <nav class="nav-menu">
             <ul>
                 <li class="active">
-                    <span><i class="fa-brands fa-dashcube" aria-hidden="true"></i></span>
-                    <span>Dashboard</span>
+                    <button type="button" class="active">
+                        <span><i class="fa-brands fa-dashcube" aria-hidden="true"></i></span>
+                        <span>Dashboard</span>
+                    </button>
                 </li>
                 <li>
-                    <span><i class="fa-solid fa-gear" aria-hidden="true"></i></span>
-                    <span>Settings</span>
+                    <button type="button">
+                        <span><i class="fa-solid fa-gear" aria-hidden="true"></i></span>
+                        <span>Settings</span>
+                    </button>
                 </li>
             </ul>
         </nav>
@@ -340,8 +423,11 @@
 
         toggleBtn.addEventListener('change', () => {
             if (toggleBtn.checked) {
+                toggleBtn.setAttribute('aria-label', 'Enable light mode');
+                console.log(toggleBtn)
                 body.classList.add('dark');
             } else {
+                toggleBtn.setAttribute('aria-label', 'Enable dark mode')
                 body.classList.remove('dark');
             }
 
@@ -367,7 +453,6 @@
         //loggoed out code
         const logout_btn = document.querySelector('.logout_btn');
         logout_btn.addEventListener('click', () => {
-            localStorage.removeItem('userDetail');
             window.location.replace('login.html')
         })
 
@@ -477,12 +562,15 @@
 
 
             let tableBody = '';
+            let article = '';
             const currentCurrency = getLoggedInUser().currency;
             data.forEach((elem) => {
-
+                //console.log(elem)
                 let isIncome = elem.Transaction_Type === 'Income';
                 let sign = isIncome ? '+' : '-';
                 let classtxt = isIncome ? 'txt-green' : 'txt-red';
+                let classarrow = isIncome ? 'income-icon' : 'expense-icon';
+                let classarrowtxt = isIncome ? 'up' : 'down';
 
 
 
@@ -494,17 +582,61 @@
                             <td>${elem.Transaction_Category}</td>
                             <td class="amount ${classtxt}">${sign}${currentCurrency}${elem.Amount}</td>
                             <td>
-                                <span class="edit_icon bg-blue" onclick="editTransaction(${elem.id})"><i class="fa-solid fa-pen-nib" aria-hidden="true"></i></span>
+                                <span class="edit_icon bg-blue" tabindex="0" role="button" aria-label="${elem.Description} transaction edit" onclick="editTransaction(${elem.id})"><i class="fa-solid fa-pen-nib" aria-hidden="true"></i></span>
 
-                                <span class="delete_icon bg-red" onclick="deleteTransaction(${elem.id})"><i class="fa-solid fa-trash-can" aria-hidden="true"></i></span>
+                                <span class="delete_icon bg-red" tabindex="0" role="button" aria-label="${elem.Description} transaction delete" onclick="deleteTransaction(${elem.id})"><i class="fa-solid fa-trash-can" aria-hidden="true"></i></span>
                             </td>
                         </tr>
                     
+        `
+
+
+
+
+                article += `
+        
+        <article class="transaction-card income">
+                        <div class="transaction-icon ${classarrow}">
+                            <i class="fa-solid fa-arrow-${classarrowtxt}"></i>
+                        </div>
+
+                        <div class="transaction-content">
+                            <div class="transaction-header">
+                                <h3>${elem.Description}</h3>
+                                <div class="transaction-details">
+                                    <p>
+                                        <i class="fa-regular fa-calendar"></i>
+                                        ${elem.Transaction_Date}
+                                    </p>
+
+                                    <p>
+                                        <i class="fa-solid fa-tag"></i>
+                                        ${elem.Transaction_Category}
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="transaction-actions">
+                            <p class="amount ${classtxt}">${sign}${currentCurrency}${elem.Amount}</p>
+                            <button class="edit_icon bg-blue" onclick="editTransaction(${elem.id})">
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+
+                            <button class="delete_icon bg-red" onclick="deleteTransaction(${elem.id})">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+
+                    </article>
+        
         `
             })
 
 
             document.getElementById('tbody').innerHTML = tableBody;
+            document.querySelector('.transaction-list.mobile_custom').innerHTML = article;
         }
 
         const transaction_type = document.getElementById('transaction_type');
@@ -660,7 +792,7 @@
 
 
         //aside nav item active code start
-        const navItems = document.querySelectorAll('.nav-menu ul li');
+        const navItems = document.querySelectorAll('.nav-menu ul li button');
         const dashboardView = document.querySelector('.dashboard_view');
         const settingsView = document.querySelector('.settings-view');
 

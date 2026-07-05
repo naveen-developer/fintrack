@@ -18,6 +18,11 @@
     box-sizing: border-box;
 }
 
+*:focus-visible {
+    outline: 2px solid darkblue;
+    outline-offset: 2px;
+}
+
 body {
     display: flex;
     flex-direction: row-reverse;
@@ -316,15 +321,15 @@ ul {
     list-style: none;
 }
 
-.nav-menu li {
+.nav-menu li button {
     padding: 0.5rem 1rem;
-    margin-block: 1rem;
+    margin-block: 0.5rem;
     border-radius: 5px;
     color: var(--text-muted);
     cursor: pointer;
 }
 
-.nav-menu li.active {
+.nav-menu li button.active {
     background: var(--primary-blue);
     color: var(--primary-blue-text)
 }
@@ -375,7 +380,9 @@ button {
 }
 
 .transaction-filters {
-    margin-top: 2rem;
+    padding: 0 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
     display: flex;
     gap: 10px;
 }
@@ -571,6 +578,7 @@ td.desc {
 
 /* custom modal dialog */
 .modal-overlay {
+    z-index: 10000;
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, .5);
@@ -655,7 +663,63 @@ td.desc {
     margin-bottom: 1rem;
 }
 
+
+
+.mobile_custom.transaction-list {
+    display: none;
+}
+
+.nav-menu button {
+    width: 100%;
+    height: 100%;
+    border: none;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    text-align: left;
+    font-size: 1rem;
+}
+
+.nav-menu li button.active {
+    color: var(--primary-blue-text);
+}
+
 @media screen and (max-width:768px) {
+    #txCategory {
+        margin-top: 1px;
+    }
+
+    .login-field,
+    .register-field,
+    .transaction-field {
+        margin-inline: 0.5rem;
+    }
+
+    .all-transactions {
+        padding: 0;
+    }
+
+    .all-transactions h2 {
+        padding: 2rem 2rem 0 2rem;
+    }
+
+
+
+
+
+    .transaction-table {
+        display: none;
+    }
+
+    .dashboard_view,
+    .settings-view {
+        padding: 2rem 1rem;
+    }
+
+    .filter-type select,
+    #currency {
+        min-width: 120px;
+    }
+
     .mobile_menu {
         display: block;
     }
@@ -690,6 +754,112 @@ td.desc {
     }
 
     .dashboard-sidebar {
-        min-width: 0;
+        min-width: 100%;
+    }
+
+    /*mobile transaction cards */
+
+    .transaction-header h3 {
+        color: var(--normalblack);
+    }
+
+    .mobile_custom.transaction-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.6rem;
+        padding: 15px 0;
+    }
+
+    .mobile_custom .transaction-card {
+        display: flex;
+        gap: 1.6rem;
+        padding: 1.5rem 1rem 0 1rem;
+        background-color: var(--normalwhite);
+        border: 1px solid var(--borderColor);
+        border-radius: 10px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+    }
+
+    .mobile_custom .transaction-icon {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 1.3rem;
+        flex-shrink: 0;
+    }
+
+    .mobile_custom .income-icon {
+        background: #eaf8ee;
+        color: #166534;
+    }
+
+    .mobile_custom .expense-icon {
+        background: #feecec;
+        color: #991b1b;
+    }
+
+    .mobile_custom .transaction-content {
+        flex: 1;
+    }
+
+
+
+    .mobile_custom .transaction-header h3 {
+        font-size: 1.2rem;
+        font-weight: 500;
+    }
+
+    .mobile_custom .amount {
+        font-weight: 700;
+        font-size: 1.2rem;
+    }
+
+    .mobile_custom .txt-green {
+        color: #166534;
+    }
+
+    .mobile_custom .txt-red {
+        color: #991b1b;
+    }
+
+    .mobile_custom .transaction-details {
+        color: #6b7280;
+        margin-bottom: 1.6rem;
+    }
+
+    .mobile_custom .transaction-details p {
+        display: flex;
+        align-items: center;
+        gap: .8rem;
+        margin-block: 2px;
+    }
+
+    .mobile_custom .transaction-actions .amount {
+        font-weight: 500;
+        margin-bottom: 5px;
+    }
+
+    .mobile_custom .transaction-actions button {
+        width: 2rem;
+        height: 2rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .mobile_custom .bg-blue {
+        background: #e8f0ff;
+        color: #2563eb;
+    }
+
+    .mobile_custom .bg-red {
+        background: #feecec;
+        color: #dc2626;
     }
 }
