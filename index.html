@@ -439,7 +439,7 @@
 
         //get User Details
         const getLoggedInUser = () => {
-            return JSON.parse(localStorage.getItem('userDetail')) || [];
+            return JSON.parse(localStorage.getItem('userDetail'));
         }
         const loggedInUser = getLoggedInUser();
 
@@ -453,6 +453,7 @@
         //loggoed out code
         const logout_btn = document.querySelector('.logout_btn');
         logout_btn.addEventListener('click', () => {
+            localStorage.removeItem('userDetail');
             window.location.replace('login.html')
         })
 
@@ -517,7 +518,9 @@
         }
 
         const closeModal = () => {
-            modalOverlay.classList.remove('active')
+            modalOverlay.classList.remove('active');
+            resetTransactionForm();
+            currentIndexTransaction = null;
         }
 
         addTransactionBtn.addEventListener('click', openModal);
